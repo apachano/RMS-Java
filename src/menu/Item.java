@@ -6,6 +6,7 @@ public class Item {
 	int price;
 	int ingredients[];
 	Item(String input){
+		ingredients = new int[100];
 		int a,b,i = 0;
 		a = input.indexOf("|");
 		b = input.indexOf("|", a+1);
@@ -17,7 +18,6 @@ public class Item {
 		a = b;
 		b = input.indexOf("|", a+1);
 		price = Integer.parseInt(input.substring(a+1, b));
-		System.out.println(price);
 		a = b;
 		b = input.indexOf("|", a+1);
 		i = 0;
@@ -26,7 +26,6 @@ public class Item {
 			ingredients[i] = Integer.parseInt(input.substring(a+1, b));
 			a = b;
 			b = input.indexOf("|", a+1);
-			
 		}
 	}
 	public String toString(){

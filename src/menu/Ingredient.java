@@ -20,7 +20,6 @@ public class Ingredient {
 		a = b;
 		b = input.indexOf("|", a+1);
 		charge = Integer.parseInt(input.substring(a+1, b));
-		System.out.println(charge);
 	}
 	public String toString(){
 		return name;
