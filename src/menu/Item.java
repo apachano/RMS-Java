@@ -31,4 +31,16 @@ public class Item {
 	public String toString(){
 		return name;
 	}
+	public String getName(){
+		return name;
+	}
+	public String out(){
+		int a;
+		if(active)a=1;
+		else a=0;
+		return "|" + name + "|" + String.valueOf(active) + "|" + price + "|";
+	}
+	public boolean active(){
+		return active;
+	}
 }
