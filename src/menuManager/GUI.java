@@ -30,13 +30,13 @@ public class GUI extends JFrame{
 	JPanel contentMenuItem;
 	JPanel contentIngredient;
 	
-	
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
 					GUI frame = new GUI();
+					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -48,7 +48,6 @@ public class GUI extends JFrame{
 	public GUI(){
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		setVisible(true);
 		setBounds(100, 100, 1200, 800);
 		/*
 		 * Code to create the menuBar
@@ -75,7 +74,12 @@ public class GUI extends JFrame{
 				menuFile.add(menuFileSave);
 				menuFileSave.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						Main.save();
+						try {
+							Main.save();
+						} catch (Exception e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
 					}
 				});
 				menuFileExit = new JMenuItem("Exit");

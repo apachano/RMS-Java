@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.util.Scanner;
 
 public class Menu {
@@ -29,6 +28,9 @@ public class Menu {
 		System.out.println("Loading menu items");
 		file = new Scanner(new FileReader(fitems));
 		item = new Item[1000000];
+		for(i=0;i<1000000;i++){
+			item[i] = new Item();
+		}
 		buffer = file.nextLine();
 		i=0;
 		while(! buffer.equals("terminate")){
@@ -51,53 +53,37 @@ public class Menu {
 		return item[i];
 	}
 	static FileWriter bw;
-	public void writeOut(File fingredients, File fitems) throws FileNotFoundException{
-		try {
-			System.out.println(fingredients);
-			fingredients.getParentFile().mkdirs();
-			fingredients.createNewFile();
-			bw = new  FileWriter(fingredients);
-			for(i=0; i<1000000; i++){
-				if(ingredient[i] != null){
-					bw.write(getID(i) + ingredient[i].out() + "\n");
-				}
-			}
-			bw.write("terminate");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-			try {
-				bw.close();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+	public void writeOut(File fingredients, File fitems) throws Exception{
+		System.out.println(fingredients);
+		fingredients.getParentFile().mkdirs();
+		fingredients.createNewFile();
+		bw = new  FileWriter(fingredients);
+		for(i=0; i<1000000; i++){
+			if(ingredient[i] != null){
+				bw.write(getID(i) + ingredient[i].out() + "\n");
 			}
 		}
+		bw.write("terminate");
+		bw.close();
 		//Save items to file
-		try {
-			System.out.println(fitems);
-			fitems.getParentFile().mkdirs();
-			fitems.createNewFile();
-			bw = new  FileWriter(fitems);
-			for(i=0; i<1000000; i++){
-				if(item[i] != null){
-					bw.write( getID(i) + item[i].out() + "\n");
-				}
-			}
-			bw.write("terminate");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-			try {
-				bw.close();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+		System.out.println(fitems);
+		fitems.getParentFile().mkdirs();
+		fitems.createNewFile();
+		bw = new  FileWriter(fitems);
+		for(i=0; i<1000000; i++){
+			if(item[i] != null){
+				bw.write( getID(i) + item[i].out() + "\n");
 			}
 		}
+		bw.write("terminate");
+		bw.close();
 	}
+	/**
+	 * Converts an integer id into a 6 digit string id
+	 * @param id The id to convert
+	 * @return The resulting 6 digit id
+	 */
+	
 	public static String getID(int id){
 		if(id < 10)return("00000" + id);
 		if(id < 100)return("0000" + id);

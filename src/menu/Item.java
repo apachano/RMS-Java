@@ -5,6 +5,11 @@ public class Item {
 	boolean active;
 	int price;
 	int ingredients[];
+	
+	Item(){
+		name = "Does Not Exist";
+		active = false;
+	}
 	Item(String input){
 		ingredients = new int[100];
 		int a,b,i = 0;
@@ -35,12 +40,12 @@ public class Item {
 		return name;
 	}
 	public String out(){
-		int a;
-		if(active)a=1;
-		else a=0;
 		return "|" + name + "|" + String.valueOf(active) + "|" + price + "|";
 	}
 	public boolean active(){
 		return active;
+	}
+	public int getPrice() {
+		return price;
 	}
 }

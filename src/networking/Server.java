@@ -8,6 +8,8 @@ import java.util.List;
 
 public class Server{
 	List<Connection> connections;
+	
+	boolean active;
 	Server(){
 		ServerSocket ss = null;
 		try {
@@ -20,7 +22,7 @@ public class Server{
 			e.printStackTrace();
 		}
 
-		while(true){
+		while(active){
 			System.out.println("Waiting for connection");
 			Socket sock = null;
 			try {
@@ -32,9 +34,15 @@ public class Server{
 			System.out.println("Recieved connection request from" + sock);
 			(new Reader(sock)).start();
 		}
+		try {
+			ss.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	public static void main(String[] args){
-		Server server = new Server();
+		//TODO Server server = new Server();
 	}
 	
 }

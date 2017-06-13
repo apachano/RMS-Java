@@ -3,6 +3,7 @@ package pos;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,6 +16,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
+import javax.swing.SwingConstants;
+
+import order.Order;
 
 public class PosGui extends JFrame{
 	/**
@@ -23,16 +27,27 @@ public class PosGui extends JFrame{
 	private static final long serialVersionUID = 1L;
 	//TODO figure out what this means serial version UID
 	private JPanel contentPane;
-	static int i;
-	int j;
-	int m;
-	int n;
-	String number = new String("");
-	JLabel numDisplay;
+	//Integers for counting
+	static int i, j, k;
+	static int a, b, c;
+	
+	//Strings and displays for numbers and sized
+	String number = new String(""); String MenuSize = new String("");
+	JLabel numDisplay; JLabel sizeDisplay;
+	
+	//Panels that need to be accessed statically 
 	static JPanel menuI[] = new JPanel[11];
-	JTextArea output;
 	static JButton btnMenuSelect[] = new JButton[10];
 	static JButton btnMenu[][][] = new JButton[10][10][5];
+	static int MenuItemID[][][] = new int[11][11][6];
+	JTextArea output;
+	
+	//Look and Feel
+	Font f1 = new Font("Monospaced", Font.PLAIN, 30);
+	Font f2 = new Font("serif", Font.PLAIN, 40);
+	static Color buttonEnabled = new Color(200, 255, 200);
+	static Color buttonDisabled = new Color(255, 200, 200);
+	
 	
 	public static void main(String[] args){
 		EventQueue.invokeLater(new Runnable() {
@@ -66,11 +81,21 @@ public class PosGui extends JFrame{
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
+		//Output for clock
+		
+		JTextArea clockOut = new JTextArea();
+		clockOut.setBounds(5, 5, 150, 20);
+		clockOut.setVisible(true);
+		contentPane.add(clockOut);
+		clockOut.setText("00/00/0000 00:00");
+		//TODO Create code to display a clock
+		//(new ClockUpdater()).start();
 		
 		//Output panel for displaying orders
 		output = new JTextArea();
 		output.setBounds(5, 25, (int)Math.round((width * .25) -10), (int)Math.round(height - 35));
 		output.setEditable(false);
+		output.setFont(f1);
 		contentPane.add(output);
 		
 		/*
@@ -88,57 +113,128 @@ public class PosGui extends JFrame{
 		menu.setVisible(true);
 		menu.setLayout(null);
 
-			/*
-			 * Numbers Code
-			 */
-			numDisplay = new JLabel("");
-			numDisplay.setBounds(5, 220, 100, 100);
-			menu.add(numDisplay);
-			
-			JButton num[] = new JButton[10];
-			for(n=0;n<10;n++){
-				num[n] = new JButton(String.valueOf(n));
-				num[n].setBounds((int)Math.round(5 + (n+1) * buttonWidth),220, (int) Math.round(buttonWidth - 10), 100);
-				menu.add(num[n]);
-				num[n].addActionListener(new ActionListener() {
-					int select = n;
-					public void actionPerformed(ActionEvent e) {
+		/*
+		 * Numbers Code
+		 */
+		
+		numDisplay = new JLabel("");
+		numDisplay.setBounds(5, 220, 100, 100);
+		numDisplay.setFont(f2);
+		numDisplay.setHorizontalTextPosition(SwingConstants.CENTER);
+		menu.add(numDisplay);
+		
+		JButton num[] = new JButton[10];
+		for(i=0;i<10;i++){
+			num[i] = new JButton(String.valueOf(i));
+			num[i].setBounds((int)Math.round(
+			/*X*/		5 + (i+1) * buttonWidth),
+			/*Y*/		220, 
+			/*width*/	(int) Math.round(buttonWidth - 10), 
+			/*height*/	100);
+			num[i].setFont(f2);
+			menu.add(num[i]);
+			num[i].addActionListener(new ActionListener() {
+				int select = i;
+				public void actionPerformed(ActionEvent e) {
+					if(number.length() < 3){
 						number = number + select;
-						numUpdate();
+						Update();
 					}
-				});
+				}
+			});
+		}
+		JButton numClear = new JButton("clear");
+		numClear.setBounds((int)Math.round(5 + buttonWidth * 11), 220, (int)Math.round(buttonWidth - 10), 100);
+		menu.add(numClear);
+		numClear.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				number = "";
+				Update();
 			}
-			JButton numClear = new JButton("clear");
-			numClear.setBounds((int)Math.round(5 + buttonWidth * 11), 220, (int)Math.round(buttonWidth - 10), 100);
-			menu.add(numClear);
-			numClear.addActionListener(new ActionListener(){
-				public void actionPerformed(ActionEvent e){
-					number = "";
-					numUpdate();
+		});
+		
+		/*
+		 * Size Button Code
+		 */
+		
+		sizeDisplay = new JLabel("");
+		sizeDisplay.setBounds(5, 330, 100, 100);
+		sizeDisplay.setFont(f2);
+		sizeDisplay.setHorizontalTextPosition(SwingConstants.CENTER);
+		menu.add(sizeDisplay);
+		
+		JButton btnSizeXLarge = new JButton("XLarge");
+		btnSizeXLarge.setBounds(5,445,(int)Math.round(buttonWidth - 10), 100);
+		menu.add(btnSizeXLarge);
+		btnSizeXLarge.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(MenuSize.equals("XL")) MenuSize = "";
+				else MenuSize = "XL";
+				sizeDisplay.setText(MenuSize);
+			}
+		});
+
+		JButton btnSizeLarge = new JButton("Large");
+		btnSizeLarge.setBounds(5,550,(int)Math.round(buttonWidth - 10), 100);
+		menu.add(btnSizeLarge);
+		btnSizeLarge.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(MenuSize.equals("L")) MenuSize = "";
+				else MenuSize = "L";
+				sizeDisplay.setText(MenuSize);
+			}
+		});
+		
+		JButton btnSizeMedium = new JButton("Medium");
+		btnSizeMedium.setBounds(5,655,(int)Math.round(buttonWidth - 10), 100);
+		menu.add(btnSizeMedium);
+		btnSizeMedium.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(MenuSize.equals("M")) MenuSize = "";
+				else MenuSize = "M";
+				sizeDisplay.setText(MenuSize);
+			}
+		});
+		
+		JButton btnSizeSmall = new JButton("Small");
+		btnSizeSmall.setBounds(5,760,(int)Math.round(buttonWidth - 10), 100);
+		menu.add(btnSizeSmall);
+		btnSizeSmall.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(MenuSize.equals("S")) MenuSize = "";
+				else MenuSize = "S";
+				sizeDisplay.setText(MenuSize);
+			}
+		});
+
+		JButton btnSizeXSmall = new JButton("XSmall");
+		btnSizeXSmall.setBounds(5,865,(int)Math.round(buttonWidth - 10), 100);
+		menu.add(btnSizeXSmall);
+		btnSizeXSmall.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(MenuSize.equals("XS")) MenuSize = "";
+				else MenuSize = "XS";
+				sizeDisplay.setText(MenuSize);
+			}
+		});
+		
+		/*
+		 * Menu Button Code
+		 */
+		
+		for(i=0;i<10;i++){
+			btnMenuSelect[i] = new JButton("menu" + String.valueOf(i));
+			btnMenuSelect[i].setBounds((int)Math.round(5 + (i+1) * buttonWidth),330, (int) Math.round(buttonWidth - 10), 100);
+			menu.add(btnMenuSelect[i]);
+			btnMenuSelect[i].addActionListener(new ActionListener() {
+				int select = i;
+				public void actionPerformed(ActionEvent e) {
+					switchMenu(select);
 				}
 			});
 			
-			/*
-			 * Menu Button Code
-			 */
-			
-			for(i=0;i<10;i++){
-				btnMenuSelect[i] = new JButton("menu" + String.valueOf(i));
-				btnMenuSelect[i].setBounds((int)Math.round(5 + (i+1) * buttonWidth),330, (int) Math.round(buttonWidth - 10), 100);
-				menu.add(btnMenuSelect[i]);
-				btnMenuSelect[i].addActionListener(new ActionListener() {
-					int select = i;
-					public void actionPerformed(ActionEvent e) {
-						switchMenu(select);
-					}
-				});
-				
-			}
+		}
 		
-		JButton btnSizeLarge = new JButton("Large");
-		btnSizeLarge.setBounds(5,440,(int)Math.round(buttonWidth - 10), 100);
-		menu.add(btnSizeLarge);
-			
 		for(i=0;i<10;i++){
 			menuI[i] = new JPanel();
 			menuI[i].setBounds((int) Math.round(buttonWidth), 440, (int) Math.round(buttonWidth * 10), 525);
@@ -146,14 +242,26 @@ public class PosGui extends JFrame{
 			menuI[i].setVisible(false);
 			menu.add(menuI[i]);			
 			
-			for(n=0;n<10;n++){
-				for(m=0;m<5;m++){
-					btnMenu[i][n][m] = new JButton(String.valueOf(i) + "," + String.valueOf(n) + "," + String.valueOf(m));
-					btnMenu[i][n][m].setBounds((int)Math.round(5 + n * buttonWidth),(5 + 105*m), (int) Math.round(buttonWidth - 10), 100);
-					menuI[i].add(btnMenu[i][n][m]);
-					btnMenu[i][n][m].addActionListener(new ActionListener() {
+			for(j=0;j<10;j++){
+				for(k=0;k<5;k++){
+					btnMenu[i][j][k] = new JButton(String.valueOf(i) + "," + String.valueOf(j) + "," + String.valueOf(k));
+					btnMenu[i][j][k].setBounds((int)Math.round(5 + j * buttonWidth),(5 + 105*k), (int) Math.round(buttonWidth - 10), 100);
+					menuI[i].add(btnMenu[i][j][k]);
+					btnMenu[i][j][k].setBackground(buttonDisabled);
+					//btnMenu[i][j][k].set
+					btnMenu[i][j][k].addActionListener(new ActionListener() {
+						
+						int x = i;
+						int y = j;
+						int z = k;
 						public void actionPerformed(ActionEvent e) {
-							
+							Pos.add(MenuItemID[x][y][z], getNumber());
+							number = "";
+							Update();
+						}
+						private int getNumber() {
+							if(number.equals(""))return -1;
+							return Integer.valueOf(number);
 						}
 					});
 				}
@@ -228,6 +336,7 @@ public class PosGui extends JFrame{
 		});
 		
 		loadMenu();
+		Update();
 	}
 	
 	/*========================================================================================================
@@ -239,13 +348,18 @@ public class PosGui extends JFrame{
 			menuI[i].setVisible(false);
 		}
 		menuI[select].setVisible(true);
-		
 	}
-
-	private void numUpdate() {
-		//TODO create code to remove leading "0" from number
+	/**
+	 * Updates the text displays on the screen
+	 */
+	private void Update() {
+		if(number.length() > 1)if(number.startsWith("0"))number = number.substring(1);
 		numDisplay.setText(number);
+		sizeDisplay.setText(MenuSize);
+		if(Pos.order != null)output.setText(Order.getOrder());
+		else output.setText("There is no order started");
 	}
+	
 	public static void loadMenu(){
 		Pos.loadMenu();
 		try {
@@ -258,10 +372,9 @@ public class PosGui extends JFrame{
 	
 	static Scanner file;
 	static String buffer;
-	static int a, active, id, b, c;
+	static int active, id;
 	static menu.Item temp;
 	public static void updateMenu(File fp) throws FileNotFoundException {
-		// TODO Auto-generated method stub
 		file = new Scanner(fp);
 		buffer = file.nextLine();
 		for(i=0; i<10;i++){
@@ -274,10 +387,11 @@ public class PosGui extends JFrame{
 			c = Integer.parseInt(buffer.substring(4,5));
 			active = Integer.parseInt(buffer.substring(6,7));
 			id = Integer.parseInt(buffer.substring(8,14));
-			System.out.print(id);
 			temp = Pos.menu.getItem(id);
-			System.out.println(temp);
 			btnMenu[a][b][c].setText(temp.getName());
+			if(active == 1)btnMenu[a][b][c].setBackground(buttonEnabled);
+			else btnMenu[a][b][c].setBackground(buttonDisabled);
+			MenuItemID[a][b][c] = id;
 			buffer = file.nextLine();
 		}
 		

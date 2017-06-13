@@ -14,7 +14,6 @@ public class Main {
 	private static Menu menu;
 	
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		System.out.println("Menu manager V. 2017.6.3");
 		load();
 	}
@@ -29,13 +28,8 @@ public class Main {
 	public static void create(){
 		menu = new Menu();
 	}
-	public static void save() {
-		try{
-			menu.writeOut(fingredients, fitems);
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	public static void save() throws Exception {
+		menu.writeOut(fingredients, fitems);
 	}
 	public static void insertIngredient(int id, String name, Boolean active, int charge){
 		menu.ingredient[id] = new Ingredient(name, active, charge);

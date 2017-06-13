@@ -23,6 +23,7 @@ public class Reader extends Thread{
 		while(scan.hasNextLine()){
 			System.out.println(scan.nextLine());
 		}
+		scan.close();
 	}
 
 }
