@@ -28,43 +28,41 @@ public class PosGui extends JFrame{
 	//TODO figure out what this means serial version UID
 	private JPanel contentPane;
 	//Integers for counting
-	static int i, j, k;
-	static int a, b, c;
+	private static int i, j, k;
+	private static int a, b, c;
 	
 	//Strings and displays for numbers and sized
 	String number = new String(""); String MenuSize = new String("");
-	JLabel numDisplay; JLabel sizeDisplay;
+	private JLabel numDisplay, sizeDisplay;
 	
 	//Panels that need to be accessed statically 
-	static JPanel menuI[] = new JPanel[11];
-	static JButton btnMenuSelect[] = new JButton[10];
-	static JButton btnMenu[][][] = new JButton[10][10][5];
-	static int MenuItemID[][][] = new int[11][11][6];
-	JTextArea output;
-    static JButton btnSizeXSmall, btnSizeSmall, btnSizeMedium, btnSizeLarge, btnSizeXLarge;
+	private static JPanel menuI[] = new JPanel[11];
+	private static JButton btnMenuSelect[] = new JButton[10];
+	private static JButton btnMenu[][][] = new JButton[10][10][5];
+	private static int MenuItemID[][][] = new int[11][11][6];
+	private JTextArea output;
+    private static JButton btnSizeXSmall, btnSizeSmall, btnSizeMedium, btnSizeLarge, btnSizeXLarge;
 	
 	//Look and Feel
-	Font f1 = new Font("Monospaced", Font.PLAIN, 30);
-	Font f2 = new Font("serif", Font.PLAIN, 40);
-	static Color buttonEnabled = new Color(200, 255, 200);
-	static Color buttonDisabled = new Color(255, 200, 200);
-    static Color sizeSelected = new Color(255, 255, 200);
-    static Color sizeUnselected = new Color(200, 200, 200);
+	private Font f1 = new Font("Monospaced", Font.PLAIN, 30);
+	private Font f2 = new Font("serif", Font.PLAIN, 40);
+    private static Color buttonEnabled = new Color(200, 255, 200);
+    private static Color buttonDisabled = new Color(255, 200, 200);
+    private static Color sizeSelected = new Color(255, 255, 200);
+    private static Color sizeUnselected = new Color(200, 200, 200);
 	
 	
 	public static void main(String[] args){
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					PosGui frame = new PosGui();
-					frame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
-					frame.setUndecorated(true);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+		EventQueue.invokeLater(() -> {
+            try {
+                PosGui frame = new PosGui();
+                frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+                frame.setUndecorated(true);
+                frame.setVisible(true);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
 	}
 	
 	/**
@@ -149,12 +147,10 @@ public class PosGui extends JFrame{
 		JButton numClear = new JButton("clear");
 		numClear.setBounds((int)Math.round(5 + buttonWidth * 11), 220, (int)Math.round(buttonWidth - 10), 100);
 		menu.add(numClear);
-		numClear.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e){
-				number = "";
-				Update();
-			}
-		});
+		numClear.addActionListener(e -> {
+            number = "";
+            Update();
+        });
 		
 		/*
 		 * Size Button Code
@@ -169,76 +165,66 @@ public class PosGui extends JFrame{
 		btnSizeXLarge = new JButton("XLarge");
 		btnSizeXLarge.setBounds(5,445,(int)Math.round(buttonWidth - 10), 100);
 		menu.add(btnSizeXLarge);
-		btnSizeXLarge.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-                clearSizes();
-				if(MenuSize.equals("XL")) MenuSize = "";
-				else {
-				    MenuSize = "XL";
-                    btnSizeXLarge.setBackground(sizeSelected);
-                }
-				sizeDisplay.setText(MenuSize);
-			}
-		});
+		btnSizeXLarge.addActionListener(e -> {
+            clearSizes();
+            if(MenuSize.equals("XL")) MenuSize = "";
+            else {
+                MenuSize = "XL";
+                btnSizeXLarge.setBackground(sizeSelected);
+            }
+            sizeDisplay.setText(MenuSize);
+        });
 
 		btnSizeLarge = new JButton("Large");
 		btnSizeLarge.setBounds(5,550,(int)Math.round(buttonWidth - 10), 100);
 		menu.add(btnSizeLarge);
-		btnSizeLarge.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-                clearSizes();
-				if(MenuSize.equals("L")) MenuSize = "";
-				else{
-				    MenuSize = "L";
-                    btnSizeLarge.setBackground(sizeSelected);
-                }
-				sizeDisplay.setText(MenuSize);
-			}
-		});
+		btnSizeLarge.addActionListener(e -> {
+            clearSizes();
+            if(MenuSize.equals("L")) MenuSize = "";
+            else{
+                MenuSize = "L";
+                btnSizeLarge.setBackground(sizeSelected);
+            }
+            sizeDisplay.setText(MenuSize);
+        });
 		
 		btnSizeMedium = new JButton("Medium");
 		btnSizeMedium.setBounds(5,655,(int)Math.round(buttonWidth - 10), 100);
 		menu.add(btnSizeMedium);
-		btnSizeMedium.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-                clearSizes();
-				if(MenuSize.equals("M")) MenuSize = "";
-				else{
-				    MenuSize = "M";
-                    btnSizeMedium.setBackground(sizeSelected);
-                }
-				sizeDisplay.setText(MenuSize);
-			}
-		});
+		btnSizeMedium.addActionListener(e -> {
+            clearSizes();
+            if(MenuSize.equals("M")) MenuSize = "";
+            else{
+                MenuSize = "M";
+                btnSizeMedium.setBackground(sizeSelected);
+            }
+            sizeDisplay.setText(MenuSize);
+        });
 		
 		btnSizeSmall = new JButton("Small");
 		btnSizeSmall.setBounds(5,760,(int)Math.round(buttonWidth - 10), 100);
 		menu.add(btnSizeSmall);
-		btnSizeSmall.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-                clearSizes();
-				if(MenuSize.equals("S")) MenuSize = "";
-				else{
-				    MenuSize = "S";
-                    btnSizeSmall.setBackground(sizeSelected);
-                }
-				sizeDisplay.setText(MenuSize);
-			}
+		btnSizeSmall.addActionListener(e -> {
+            clearSizes();
+            if(MenuSize.equals("S")) MenuSize = "";
+            else{
+                MenuSize = "S";
+                btnSizeSmall.setBackground(sizeSelected);
+            }
+            sizeDisplay.setText(MenuSize);
 		});
 
 		btnSizeXSmall = new JButton("XSmall");
 		btnSizeXSmall.setBounds(5,865,(int)Math.round(buttonWidth - 10), 100);
 		menu.add(btnSizeXSmall);
-		btnSizeXSmall.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-                clearSizes();
-				if(MenuSize.equals("XS")) MenuSize = "";
-				else{
-				    MenuSize = "XS";
-                    btnSizeXSmall.setBackground(sizeSelected);
-                }
-				sizeDisplay.setText(MenuSize);
-			}
+		btnSizeXSmall.addActionListener(e -> {
+            clearSizes();
+            if(MenuSize.equals("XS")) MenuSize = "";
+            else{
+                MenuSize = "XS";
+                btnSizeXSmall.setBackground(sizeSelected);
+            }
+            sizeDisplay.setText(MenuSize);
 		});
 		
 		/*
@@ -263,8 +249,8 @@ public class PosGui extends JFrame{
 			menuI[i].setBounds((int) Math.round(buttonWidth), 440, (int) Math.round(buttonWidth * 10), 525);
 			menuI[i].setLayout(null);
 			menuI[i].setVisible(false);
-			menu.add(menuI[i]);			
-			
+			menu.add(menuI[i]);
+
 			for(j=0;j<10;j++){
 				for(k=0;k<5;k++){
 					btnMenu[i][j][k] = new JButton(String.valueOf(i) + "," + String.valueOf(j) + "," + String.valueOf(k));
@@ -307,32 +293,22 @@ public class PosGui extends JFrame{
 		btnExitFunctions.setBounds(1190, 840, 100, 100);
 		functions.add(btnExitFunctions);
 
-		btnExitFunctions.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				functions.setVisible(false);
-				menu.setVisible(true);
-			}
+		btnExitFunctions.addActionListener(e -> {
+            functions.setVisible(false);
+            menu.setVisible(true);
 		});
 		
 		JButton btnMenuLoad = new JButton("Load Menu");
 		btnMenuLoad.setBounds(1190, 730, 100, 100);
 		functions.add(btnMenuLoad);
 
-		btnMenuLoad.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				loadMenu();
-			}
-		});
+		btnMenuLoad.addActionListener(e -> loadMenu());
 
 		JButton btnQuit = new JButton("Quit");
 		btnQuit.setBounds(1190, 950, 100, 100);
 		functions.add(btnQuit);
 		
-		btnQuit.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.exit(0);
-			}
-		});
+		btnQuit.addActionListener(e -> System.exit(0));
 		
 		/*
 		 * Other Code
@@ -346,17 +322,15 @@ public class PosGui extends JFrame{
 		btnFunctions.setBounds(1815, 850, 100, 100);
 		contentPane.add(btnFunctions);
 
-		btnFunctions.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e){
-				if(functions.isVisible()){
-				functions.setVisible(false);
-				menu.setVisible(true);
-				}else{
-					functions.setVisible(true);
-					menu.setVisible(false);
-				}
-			}
-		});
+		btnFunctions.addActionListener(e -> {
+            if(functions.isVisible()){
+            functions.setVisible(false);
+            menu.setVisible(true);
+            }else{
+                functions.setVisible(true);
+                menu.setVisible(false);
+            }
+        });
 		
 		loadMenu();
 		Update();
@@ -393,7 +367,7 @@ public class PosGui extends JFrame{
 		}
 	}
 
-    public static void clearSizes(){
+    private static void clearSizes(){
         btnSizeXLarge.setBackground(sizeUnselected);
         btnSizeLarge.setBackground(sizeUnselected);
         btnSizeMedium.setBackground(sizeUnselected);
