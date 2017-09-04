@@ -41,12 +41,15 @@ public class PosGui extends JFrame{
 	static JButton btnMenu[][][] = new JButton[10][10][5];
 	static int MenuItemID[][][] = new int[11][11][6];
 	JTextArea output;
+    static JButton btnSizeXSmall, btnSizeSmall, btnSizeMedium, btnSizeLarge, btnSizeXLarge;
 	
 	//Look and Feel
 	Font f1 = new Font("Monospaced", Font.PLAIN, 30);
 	Font f2 = new Font("serif", Font.PLAIN, 40);
 	static Color buttonEnabled = new Color(200, 255, 200);
 	static Color buttonDisabled = new Color(255, 200, 200);
+    static Color sizeSelected = new Color(255, 255, 200);
+    static Color sizeUnselected = new Color(200, 200, 200);
 	
 	
 	public static void main(String[] args){
@@ -163,57 +166,77 @@ public class PosGui extends JFrame{
 		sizeDisplay.setHorizontalTextPosition(SwingConstants.CENTER);
 		menu.add(sizeDisplay);
 		
-		JButton btnSizeXLarge = new JButton("XLarge");
+		btnSizeXLarge = new JButton("XLarge");
 		btnSizeXLarge.setBounds(5,445,(int)Math.round(buttonWidth - 10), 100);
 		menu.add(btnSizeXLarge);
 		btnSizeXLarge.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+                clearSizes();
 				if(MenuSize.equals("XL")) MenuSize = "";
-				else MenuSize = "XL";
+				else {
+				    MenuSize = "XL";
+                    btnSizeXLarge.setBackground(sizeSelected);
+                }
 				sizeDisplay.setText(MenuSize);
 			}
 		});
 
-		JButton btnSizeLarge = new JButton("Large");
+		btnSizeLarge = new JButton("Large");
 		btnSizeLarge.setBounds(5,550,(int)Math.round(buttonWidth - 10), 100);
 		menu.add(btnSizeLarge);
 		btnSizeLarge.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+                clearSizes();
 				if(MenuSize.equals("L")) MenuSize = "";
-				else MenuSize = "L";
+				else{
+				    MenuSize = "L";
+                    btnSizeLarge.setBackground(sizeSelected);
+                }
 				sizeDisplay.setText(MenuSize);
 			}
 		});
 		
-		JButton btnSizeMedium = new JButton("Medium");
+		btnSizeMedium = new JButton("Medium");
 		btnSizeMedium.setBounds(5,655,(int)Math.round(buttonWidth - 10), 100);
 		menu.add(btnSizeMedium);
 		btnSizeMedium.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+                clearSizes();
 				if(MenuSize.equals("M")) MenuSize = "";
-				else MenuSize = "M";
+				else{
+				    MenuSize = "M";
+                    btnSizeMedium.setBackground(sizeSelected);
+                }
 				sizeDisplay.setText(MenuSize);
 			}
 		});
 		
-		JButton btnSizeSmall = new JButton("Small");
+		btnSizeSmall = new JButton("Small");
 		btnSizeSmall.setBounds(5,760,(int)Math.round(buttonWidth - 10), 100);
 		menu.add(btnSizeSmall);
 		btnSizeSmall.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+                clearSizes();
 				if(MenuSize.equals("S")) MenuSize = "";
-				else MenuSize = "S";
+				else{
+				    MenuSize = "S";
+                    btnSizeSmall.setBackground(sizeSelected);
+                }
 				sizeDisplay.setText(MenuSize);
 			}
 		});
 
-		JButton btnSizeXSmall = new JButton("XSmall");
+		btnSizeXSmall = new JButton("XSmall");
 		btnSizeXSmall.setBounds(5,865,(int)Math.round(buttonWidth - 10), 100);
 		menu.add(btnSizeXSmall);
 		btnSizeXSmall.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+                clearSizes();
 				if(MenuSize.equals("XS")) MenuSize = "";
-				else MenuSize = "XS";
+				else{
+				    MenuSize = "XS";
+                    btnSizeXSmall.setBackground(sizeSelected);
+                }
 				sizeDisplay.setText(MenuSize);
 			}
 		});
@@ -369,6 +392,14 @@ public class PosGui extends JFrame{
 			e1.printStackTrace();
 		}
 	}
+
+    public static void clearSizes(){
+        btnSizeXLarge.setBackground(sizeUnselected);
+        btnSizeLarge.setBackground(sizeUnselected);
+        btnSizeMedium.setBackground(sizeUnselected);
+        btnSizeSmall.setBackground(sizeUnselected);
+        btnSizeXSmall.setBackground(sizeUnselected);
+    }
 	
 	static Scanner file;
 	static String buffer;
