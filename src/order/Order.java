@@ -34,7 +34,7 @@ public class Order {
 			String Price = String.valueOf(price);
 			
 			//Format item name
-			while(name.length() < (20 - Price.length()))name = name + " ";
+			while(name.length() < (25 - Price.length()))name = name + " ";
 			String quant = String.valueOf(items.get(i).quantity);
 			
 			//Format Item Quantity

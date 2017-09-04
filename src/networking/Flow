@@ -1,9 +1,0 @@
-Server
--Waits for connection, if connection is requested
-start a reader and a writer thread then loop
-
-Reader
--reads from socket
-
-Writer
--writes to socket
