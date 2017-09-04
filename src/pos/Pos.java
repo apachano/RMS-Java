@@ -33,9 +33,12 @@ public class Pos {
 		}
 	}
 	
+	public static void newOrder(){
+		order = new Order(null);
+	}
+	
 	public static void add(int item, int quantity){
 		
-		System.out.println(item + quantity);
 		if(order == null)order = new Order(null);
 		
 		if(! menu.item[item].active())return; //Check to see if the menu item is active.
@@ -58,5 +61,9 @@ public class Pos {
 	
 	public static void remove(int item){
 		add(item,0);
+	}
+	
+	public static void checkout(){
+		
 	}
 }
