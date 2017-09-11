@@ -21,7 +21,19 @@ public class Order {
 	 * Returns a string representation of the status of the order
 	 * @return
 	 */
-	
+	public static BigDecimal getTotal(){
+		BigDecimal total = BigDecimal.valueOf(0);
+        for(i=0;i < items.size();i++){
+            BigDecimal price = BigDecimal.valueOf(items.get(i).price);
+            price = BigDecimal.valueOf(items.get(i).quantity).multiply(price);
+            total = total.add(price);
+        }
+        if(core.Register.tax > 0){
+            BigDecimal tax = total.multiply(BigDecimal.valueOf(core.Register.tax));
+            total = total.add(tax);
+        }
+		return total;
+	}
 	public static String getOrder(){
 		buffer = "";
 		BigDecimal total = BigDecimal.valueOf(0);
@@ -54,4 +66,18 @@ public class Order {
 		}
 		return buffer;
 	}
+	public static String getChange(String amountpaid){
+	    BigDecimal paid = new BigDecimal(amountpaid);
+        BigDecimal total = getTotal();
+        BigDecimal change = paid.subtract(total);
+        String buffer = getOrder();
+        buffer = buffer + "Paid            $" + paid.setScale(2, 4) + "\n";
+        if(change.compareTo(new BigDecimal(0)) < 0){
+            buffer = buffer + "Due             $" + change.setScale(2, 4) + "\n";
+        }else{
+            buffer = buffer + "Change          $" + change.setScale(2, 4) + "\n";
+        }
+
+        return buffer;
+    }
 }

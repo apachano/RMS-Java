@@ -2,6 +2,7 @@ package pos;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.math.BigDecimal;
 
 import order.Order;
 
@@ -9,6 +10,7 @@ public class Pos {
 	static menu.Menu menu;
 	static order.Order order;
 	static int i;
+	Register register;
 	
 	public static void main(String[] args){
 		
@@ -63,7 +65,5 @@ public class Pos {
 		add(item,0);
 	}
 	
-	public static void checkout(){
-		
-	}
+
 }

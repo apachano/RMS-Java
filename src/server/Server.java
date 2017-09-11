@@ -2,7 +2,6 @@ package server;
 import java.io.IOException;
 import java.net.InetAddress;
 import networking.Connection;
-import networking.ConnectionManager;
 
 import java.net.ServerSocket;
 import java.util.Scanner;
@@ -21,15 +20,18 @@ public class Server extends Thread{
 			e.printStackTrace();
 		}
 		
-		(new networking.ConnectionManager(connection, ss)).start(); //Start the connection manager with the server socket
+		(new ConnectionManager(connection, ss)).start(); //Start the connection manager with the server socket
 		
 		//Start scanning for input
 		Scanner scanner = new Scanner(System.in);
+		String buffer;
 		while(scanner.hasNextLine()){
-			for(i=0;i<10;i++){
-				if(connection[i] != null){
-					connection[i].push(scanner.nextLine());
-				}
+			buffer = scanner.nextLine();
+			if (buffer.startsWith("/")){
+				command(buffer);
+			}
+			else{
+				System.out.println("Type /help for help");
 			}
 		}
 		
@@ -41,6 +43,9 @@ public class Server extends Thread{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		ConnectionManager.active = false;
+		//ConnectionManager.active = false;
+	}
+	public static void command(String command){
+
 	}
 }

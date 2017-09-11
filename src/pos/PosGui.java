@@ -26,15 +26,19 @@ public class PosGui extends JFrame{
 	 */
 	private static final long serialVersionUID = 1L;
 	//TODO figure out what this means serial version UID
+
+	Register register;
+
 	private JPanel contentPane;
 	//Integers for counting
 	private static int i, j, k;
 	private static int a, b, c;
 	
 	//Strings and displays for numbers and sized
-	String number = new String("");	JLabel numDisplay;
-	String MenuSize = new String(""); JLabel sizeDisplay;
-	String cnumber = new String(""); JLabel cnumDisplay;
+	private String number = new String("");	JLabel numDisplay;
+	private String MenuSize = new String(""); JLabel sizeDisplay;
+	private String cnumber = new String(""); JLabel cnumDisplay;
+	private String paid = new String("");
 	
 	//Panels that need to be accessed statically 
 	static JPanel menuI[] = new JPanel[11];
@@ -45,6 +49,7 @@ public class PosGui extends JFrame{
 	static JPanel functions;
 	static JPanel menu;
 	static JPanel cashout;
+	private static JButton btnSizeXLarge, btnSizeLarge, btnSizeMedium, btnSizeSmall, btnSizeXSmall;
 	
 	//Look and Feel
 	private Font f1 = new Font("Monospaced", Font.PLAIN, 25);
@@ -335,7 +340,7 @@ public class PosGui extends JFrame{
 					public void actionPerformed(ActionEvent e) {
 						if(cnumber.length() < 10){
 							cnumber = cnumber + select;
-							Update();
+                            cashOutUpdate();
 						}
 					}
 				});
@@ -354,7 +359,7 @@ public class PosGui extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				if(cnumber.length() < 10){
 					cnumber = cnumber + select;
-					Update();
+                    cashOutUpdate();
 				}
 			}
 		});
@@ -370,7 +375,7 @@ public class PosGui extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				if(cnumber.length() < 10){
 					cnumber = cnumber + "00";
-					Update();
+                    cashOutUpdate();
 				}
 			}
 		});
@@ -384,17 +389,28 @@ public class PosGui extends JFrame{
 		cnumClear.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				cnumber = "";
-				Update();
+                cashOutUpdate();
 			}
 		});
-		JButton modifyOrder = new JButton("Modify \n Order");
-		modifyOrder.setBounds((int) (5+5*buttonWidth), 220, (int)buttonWidth - 10, 90);
-		cashout.add(modifyOrder);
-		modifyOrder.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e){
-				cashoutToggle();
-			}
-		});
+        JButton modifyOrder = new JButton("Modify \n Order");
+        modifyOrder.setBounds((int) (5+5*buttonWidth), 220, (int)buttonWidth - 10, 90);
+        cashout.add(modifyOrder);
+        modifyOrder.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e){
+                cashoutToggle();
+            }
+        });
+        JButton cash = new JButton("cash");
+        cash.setBounds( (int)(5+5*buttonWidth), 440, (int)buttonWidth - 10, 90);
+        cashout.add(cash);
+        cash.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e){
+                paid = "" + (Integer.valueOf(paid) + Integer.valueOf(cnumber));
+                cnumber = "";
+                output.setText(Order.getChange(paid));
+                cashOutUpdate();
+            }
+        });
 
 		/*================================================================
 		 * Functions menu code
@@ -514,14 +530,19 @@ public class PosGui extends JFrame{
 	private void Update() {
 		if(number.length() > 1)if(number.startsWith("0"))number = number.substring(1);
 		numDisplay.setText(number);
-		while(cnumber.startsWith("0")){cnumber = cnumber.substring(1);}
-		int temp = cnumber.length();
-		if(temp > 2)cnumDisplay.setText("$" + cnumber.substring(0, temp - 2) + "." + cnumber.substring(temp - 2));
-		else cnumDisplay.setText("$0." + cnumber);
-		sizeDisplay.setText(MenuSize);
+        sizeDisplay.setText(MenuSize);
 		if(Pos.order != null)output.setText(Order.getOrder());
 		else output.setText("There is no order started");
 	}
+	private void cashOutUpdate() {
+        while (cnumber.startsWith("0")) {
+            cnumber = cnumber.substring(1);
+        }
+        int temp = cnumber.length();
+        if (temp > 2) cnumDisplay.setText("$" + cnumber.substring(0, temp - 2) + "." + cnumber.substring(temp - 2));
+        else cnumDisplay.setText("$0." + cnumber);
+        output.setText(Order.getChange(paid));
+    }
 	
 	public static void loadMenu(){
 		Pos.loadMenu();

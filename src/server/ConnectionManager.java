@@ -1,4 +1,4 @@
-package networking;
+package server;
 
 import java.io.IOException;
 import networking.Connection;
@@ -11,7 +11,7 @@ public class ConnectionManager extends Thread{
 	Connection[] connection;
 	ServerSocket ss;
 	
-	ConnectionManager(Connection[] connection, ServerSocket ss){
+	public ConnectionManager(Connection[] connection, ServerSocket ss){
 		this.connection = connection;
 		this.ss = ss;
 	}
@@ -29,7 +29,7 @@ public class ConnectionManager extends Thread{
 			System.out.println("Recieved connection request from" + sock);
 			try {
 				for(i=0; connection[i] != null; i++){}
-				connection[i] = new Connection(sock);
+				connection[i] = new Connection(sock, new Receiver());
 				connection[i].start();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block

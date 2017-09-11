@@ -8,27 +8,25 @@ import java.net.Socket;
 import java.util.Scanner;
 
 public class Connection extends Thread{
-	OutputStream os;
-	InputStream is;
-	static Socket socket;
-	static Scanner scan;
+	private OutputStream os;
+	private InputStream is;
+	private static Socket socket;
+	private static Scanner scan;
+	private static Receiver receiver;
 	
-	public Connection(Socket sock) throws IOException{
+	public Connection(Socket sock, Receiver receiver) throws IOException{
 		socket = sock;
 		os = sock.getOutputStream();
 		is = sock.getInputStream();
+		this.receiver = receiver;
 	}
 	
 	public void run(){
 		scan = new Scanner(is);
 		while(scan.hasNextLine()){
-			Connection.read(scan.nextLine());
+			receiver.receive(scan.nextLine());
 		}
 		close();
-	}
-	
-	public static void read(String input){
-		System.out.println(input);
 	}
 	
 	public void push(String output){
