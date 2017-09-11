@@ -19,6 +19,7 @@ public class Connection extends Thread{
 		os = sock.getOutputStream();
 		is = sock.getInputStream();
 		this.receiver = receiver;
+		receiver.setConnection(this);
 	}
 	
 	public void run(){

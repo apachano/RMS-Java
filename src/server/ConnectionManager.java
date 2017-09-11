@@ -29,7 +29,7 @@ public class ConnectionManager extends Thread{
 			System.out.println("Recieved connection request from" + sock);
 			try {
 				for(i=0; connection[i] != null; i++){}
-				connection[i] = new Connection(sock, new Receiver());
+				connection[i] = new Connection(sock, new Receiver("connection " + i + ": " ));
 				connection[i].start();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block

@@ -60,18 +60,7 @@ public class PosGui extends JFrame{
     private static Color sizeUnselected = new Color(200, 200, 200);
 	
 	
-	public static void main(String[] args){
-		EventQueue.invokeLater(() -> {
-            try {
-                PosGui frame = new PosGui();
-                frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-                frame.setUndecorated(true);
-                frame.setVisible(true);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
-	}
+
 	
 	/**
 	 * Create the frame.

@@ -5,7 +5,7 @@ package pos;
  * REV 9/10/2017
  * github.com/apachano
  */
-public class Receiver extends Thread{
+public class Receiver extends networking.Receiver{
     public Receiver(){
 
     }
